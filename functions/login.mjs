@@ -1,0 +1,2 @@
+import {configured,reply,passwordOK,token} from './_shared.mjs';
+export default async(request)=>{if(request.method!=='POST')return reply({error:'Method not allowed'},405);if(!configured())return reply({error:'Organizer credentials are not configured on Netlify.'},503);let body;try{body=await request.json()}catch{return reply({error:'Invalid request'},400)}if(!passwordOK(body.password))return reply({error:'Incorrect password'},401);return reply({token:token()})};
